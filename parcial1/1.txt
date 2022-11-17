@@ -1,0 +1,42 @@
+Para las siguientes recurrencias, use el teorema maestro visto en clase para hallar una fórmula cerrada para T(n)
+
+a) T(n) = 2T(n/3) + 3(n^2+1)/2
+
+Como 3(n^2+1)/2 ∈ O(n^2), se tiene que:
+a = 2
+b = 3
+k = 2
+
+Por lo tanto, como a < b^k (2 < 3^2), T(n) ∈ Θ(n^2)
+
+b) T(n) = 5T(n/5) + 2n − 7
+
+Como 2n-7 ∈ O(n), se tiene que:
+a = 5
+b = 5
+k = 1
+
+Por lo tanto, como a = b^k (5 = 5^1), el teorema maestro nos dice que T(n) ∈ Θ(n log n) 
+
+
+c) T(n) = 5T(n/2) + 2n
+
+Como 2n ∈ O(n), se tiene que:
+a = 5
+b = 2
+k = 1
+
+Por lo tanto, como a > b^k (5 > 2), entonces T(n) ∈ Θ(n^log_2(5)) 
+
+d) T(n) = \sum_{i=1}^{n} (T(n/2)+i) / n 
+
+Simplificando un poco:
+=> T(n) = \sum_{i=1}^{n} T(n/2) / n + \sum_{i=1}^{n} i / n
+=> T(n) = T(n/2) + (n+1)/2
+
+Como (n+1)/2 ∈ O(n), se tiene que:
+a = 1
+b = 2
+k = 1
+
+Por lo tanto, como a < b^k (1 < 2^1), T(n) ∈ Θ(n)

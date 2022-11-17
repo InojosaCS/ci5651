@@ -1,0 +1,22 @@
+Para cada nodo se tendría el valor de:
+Número de PARES -()- paréntesis matcheados. Que llamaremos como val.matcheados
+Número de paréntesis ‘(‘ que no están matcheados. Que llamaremos como val.left_no_matcheados
+Número de paréntesis ')' que no están matcheados. Que llamaremos como val.right_no_matcheados
+
+Entonces para un segmento de [L,R] se tendría el valor de:
+val(l,r).matcheados = val(l,mid).matcheados + val(mid+1,r).matcheados + min(val(l,mid).left_no_matcheados, val(mid+1,r).right_no_matcheados)
+
+Donde el min(val(l,mid).left_no_matcheados, val(mid+1,r).right_no_matcheados) es el número de paréntesis que se pueden matchear entre los paréntesis rezagados de los dos segmentos.
+
+val(l,r).left_no_matcheados = val(l,mid).left_no_matcheados + val(mid+1,r).left_no_matcheados - min(val(l,mid).left_no_matcheados, val(mid+1,r).right_no_matcheados)
+
+Y analogamente,
+
+val(l,r).right_no_matcheados = val(l,mid).right_no_matcheados + val(mid+1,r).right_no_matcheados - min(val(l,mid).left_no_matcheados, val(mid+1,r).right_no_matcheados)
+
+Y para el caso base, cuando L=R, se tendría que:
+val(l,r).matcheados = 0
+val(l,r).left_no_matcheados = 1 si s[l] = ‘(‘ y 0 en otro caso
+val(l,r).right_no_matcheados = 1 si s[l] = ‘)’ y 0 en otro caso
+
+Para imprimir la respuesta, se debe imprimir el valor de val(l,r).matcheados * 2,  porque estabamos contando PARES.
