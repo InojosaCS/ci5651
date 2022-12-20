@@ -1,0 +1,46 @@
+Sea un arreglo A de n enteros. Definimos query(a, b, x, y) como el número de elementos en A, entre los índices a y b (ambos inclusive), que son mayores o iguales que x y menores o iguales que y.
+Formalmente, query(a, b, x, y) = |{A[i] | a ≤ i ≤ b ∧ x ≤ A[i] ≤ y}|
+Si se espera recibir q consultas de este estilo, diseñe un algoritmo que permita responder todas las consultas en O((n + q) log n)
+
+Pista: Realice un precondicionamiento adecuado en O(n log n), que le permita responder
+cada consulta en O(log n).
+
+Solución:
+
+Crearemos un segment tree que nos permita responder las consultas en O(log n).
+
+El segment tree tendrá como nodos los valores de los elementos del arreglo ordernados
+de menor a mayor, y como hojas los elementos del arreglo.
+
+El precondicionamiento sería: 
+Como hojas del segment tree, los elementos del arreglo en el mismo orden en el que aparecen, por ejemplo, a_1 sería la hoja más a la izquierda y a_n la hoja más a la derecha (asumiendo un graficación ideal del árbol). 
+
+Luego, para cada nodo, se tomarán sus hijos y se ordenarán de menor a mayor. Notemos que este merge es posible O(|nodo_izq| + |nodo_der|) ya que los hijos están ordenados. (Simplemente hacemos 2 pointers y vamos agregando los elementos comparando los primeros de cada arreglo).
+
+Por ejemplo, para el arreglo A = [1, 7, 8, 3, 4, 6, 5, 2] el segment tree quedaría de la siguiente forma:
+[1] [7] [8] [3] [4] [6] [5] [2] -- Hojas: Crear este nivel serío 1 * 8 = 8 = n
+[1, 7] [3, 8] [4, 6] [2, 5]     -- Nodos: Merge de los hijos sería 2 * 4 = 8 = n
+[1, 3, 7, 8] [2, 4, 5, 6]       -- Nodos: Merge de los hijos sería 4 * 2 = 8 = n
+[1, 2, 3, 4, 5, 6, 7, 8]        -- Nodos: Merge de los hijos sería 8 * 1 = 8 = n
+
+Es claro que crear cada nivel del segment tree es O(n) puesto que la suma de los merges forma el arreglo entero y cada merge es lineal. Cómo la profundidad del segment tree es O(log n), el precondicionamiento es O(n log n).
+
+Para los queries, se usa la misma estrategia tradicional para hallar los nodos que forman un rango [a, b]. Esto sería similar a cuando buscamos la suma/min/max en un segment tree. Ahora, la diferencia es que en estos nodos se realizará un binary search para encontrar el primer elemento mayor o igual que x (y menor que y); y el último elemento menor o igual que y (y mayor que x). Esto se puede hacer en O(log n) ya que los nodos están ordenados. Al tener el primeroo y último elemento, se puede calcular la cantidad de elementos en el rango [x, y] en O(1) (una resta). Luego se agreagan los elementos de los nodos que forman el rango [a, b] y se retorna el resultado.
+
+Por ejemplo, si la consulta es query(3, 8, 3, 5). Valores de [8, 3, 4, 6, 5, 2] que están entre 3 y 5.
+
+Hallar los nodos que forman este rango nos retorna los nodos [3,8] y [2,4,5,6]
+
+Para [3,8]:
+Con binary_search sacamos el primer elemento mayor o igual que 3 es 3. 
+con binary_search el último elemento menor o igual que 5 es 3.
+Tenemos un elemento
+
+Para [2,4,5,6]:
+Con binary_search sacamos el primer elemento mayor o igual que 3 es 4.
+Con binary_search sacamos el último elemento menor o igual que 5 es 5.
+Tenemos dos elementos.
+
+Este query nos retornará 3 elementos en O(log n).
+
+Al tener q queries el algoritmo nos queda con una complejidad en tiempo de O(n log n + q log n) = O((n + q) log n).
