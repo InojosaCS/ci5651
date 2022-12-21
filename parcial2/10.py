@@ -1,37 +1,5 @@
-# Let f(x) be numbers of positive integers a,b,c,d such that a*b + c*d = X
-# find the maximun f(x) such that x is between 1 and N
-from math import sqrt
+Intenté lo más que pude, pero lo más cercano que conseguí fue con complejidad O(n^2).
 
-def f(x):
-	count = 0
-	for a in range(1, x):
-		for b in range(1, x):
-			for c in range(1, x):
-				for d in range(1, x):
-					if a*b + c*d == x:
-						print(a,b,c,d)
-						count += 1
-	return count
+Básicamente se tiene Decomp(n) = Sum_{k=1..n} d(k)*d(n+1-k), dónde d(k) es el número de divisores positivos de k; d(i) se puede obtener O(1) de tiempo, y por lo tanto la suma en tiempo lineal, (esto precalculando el número de divisores con la criba de eratóstenes en O(N log N) en tiempo y O(N) en espacio). Esto se haría para cada n <= N y al final comparando todos los valores para obtener el máximo, y la complejidad vendría por Sum_{n=1..N} n = N * (N+1) / 2 = O(N^2).
 
-def max_f(N):
-  F = [0] * (N + 1)  # Initialize array F to 0
-  P = [True] * (N + 1)  # Initialize array P to True
-  P[0] = P[1] = False  # Set P[0] and P[1] to False
-  for x in range(2, N + 1):
-    if P[x]:  # If x is a prime
-      F[x] = 1  # Increment F[x] by 1
-      # Mark all multiples of x as composite
-      for i in range(2, N // x + 1):
-        P[x * i] = False
-    # Iterate through the values of a and b such that a * b <= x
-    for a in range(1, int(sqrt(x)) + 1):
-      for b in range(1, int(sqrt(x)) + 1):
-        if a * b <= x and P[a] and P[b]:  # If a and b are both prime
-          F[x] += 1  # Increment F[x] by 1
-  return F  
-  
-if __name__ == '__main__':
-	a = max_f(10)
-	b = [f(i) for i in range(1, 11)]
-	print(a)
-	print(b)
+El precálculo con la criba de eratóstenes, consistiría en hallar todos los primos en O(N log log N), luego para cada número hallar sus factores primos O(log N), para finalmente calcular el número de sus divisores con la cantidad de ocurrencias de cada factor primo. Por ejemplo: 2^2 * 3^1 * 5^1 tendría (2+1) * (1+1) * (1+1) = 12 divisores (Se multiplican los exponentes aumentados en uno). La complejidad de esto sería O(N log N) por O(log N) que hacemos N veces.
