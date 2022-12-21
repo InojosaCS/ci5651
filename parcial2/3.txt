@@ -1,0 +1,25 @@
+Para resolver este problema usaremos LCA.
+
+Definamos el costo de llegar del nodo u al nodo v, como la cantidad de edges que valen true en el camino entre ellos. Por ejemplo, a -true-> b -false-> c -true-> d -true-> e, el costo de llegar de a a e es 3.
+
+Definamos la distancia entre dos nodos como la cantidad de edges que hay entre ellos. Por ejemplo, a -true-> b -false-> c -true-> d -true-> e, la distancia entre a y e es 4.
+
+Podemos precalcular estos valores para todos los nodos partiendo de la raíz. Para esto usaremos un dfs.
+
+Ahora, para calcular el costo de llegar de u a v, podemos usar LCA. Está claro que:
+
+El costo de llegar de u a v es la suma de los costos de llegar de u a lca(u, v) y de v a lca(u, v). 
+El costo de llegar de u a lca(u, v) es la distancia entre u y la raíz menos el costo de llegar de la raíz a lca(u, v). 
+El costo de llegar de v a lca(u, v) es la distancia entre v y la raíz menos el costo de llegar de la raíz a lca(u, v).
+
+Por lo tanto el costo de llegar de u a v es la distancia entre u y la raíz más la distancia entre v y la raíz menos 2 veces el costo de llegar de la raíz a lca(u, v). Esto es cost(raiz, u) + cost(raiz, v) - 2 * cost(raiz, lca(u, v)).
+
+Como precalculamos los valores de cost, los podemos obtener en O(1). Sólo nos queda hallar el LCA lo cual tiene una complejidad O(log N).
+
+Analogamente, este razonamiento nos permite deducir que la distancia entre u y v es la distancia entre u y la raíz más la distancia entre v y la raíz menos 2 veces la distancia entre la raíz y lca(u, v). Esto es, dist(raiz, u) + dist(raiz, v) - 2 * dist(raiz, lca(u, v)). De igual forma, podemos obtener esta distancia en O(1) precalculandola con dfs, y solo nos queda hallar el LCA en O(log N).
+
+Finalmente, para poder responder el query:
+
+forall(x, y): Esto se va a cumplir si el costo es igual a la distancia (si el costo no fuese igual entonces es que habría un edge que valga false en el camino entre x e y).
+
+exists(x, y): Esto se va a cumplir si el costo es mayor a 0 (si el costo es 0 entonces es que no hay edges que valgan true en el camino entre x e y).
