@@ -1,0 +1,10 @@
+Pregunta 8
+
+Creamos un grafo tal que cada elemento del conjunto representa un nodo y, dos nodos están conectados si la suma de sus valores es primo. 
+
+Debemos elegir un subconjunto del menor tamaño posible de nodos tal que para cada arista uno de sus nodos incidentes esté en el subconjunto. Esto es, encontrar una cobertura mínima de vértices.
+
+El teorema de Koning describe una equivalencia entre el problema de flujo máximo y el problema de minimum vertex cover en grafos bipartitos. Esta información nos sirve, puesto que sabemos resolver el flujo máximo.
+Es fácil ver que estamos formando un grafo bipartito en ese caso. Pensando únicamente en los nodos que son partes de aristas, tendremos los números pares de un lado, y del otro los impares. Esto es cierto puesto que todos los números primos son impares salvo el 2, pero la suma mínima que tenemos 1 + 2 > 2. Como sólo la suma de un número par y uno impar puede dar como resultado una suma impar, tendremos nuestro grafo bipartito.
+
+Hallar el flujo máximo es un problema conocido, y que puede ser resuelto por las estrategias vistas en el curso. Basta con hacer plug & play para resolver el problema.
