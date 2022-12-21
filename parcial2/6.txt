@@ -1,0 +1,27 @@
+Pregunta 8
+
+El algoritmo propuesto de aproximación de MIN-COVER 
+
+(i) Encontrar un flujo máximo M para el grafo de entrada G.
+
+(ii) Para cada arista {u, v} ∈ M, añadir tanto u como v a la cobertura de vértices S
+
+Prueba: Dado un óptimo MVC S* para G, demostraremos que nuestro algoritmo produce un cobertura de vértices S tal que |S| ≤ 2.|S*|. Para ello, primero enunciamos y probamos dos lemas relacionados con nuestro algoritmo, y la relación general entre flujos y coberturas de vértices.
+
+Lemma 1. S es una cobertura de vértices
+
+Prueba. Lo demostramos por contradicción. Supongamos que alguna arista e = {u, v} ∈ E no está cubierta en S, es decir, tanto u ∉ S como v ∉ S. Como tanto u como v no están en S, cualquier arista incidente sobre u y v, incluyendo e, no forma parte de nuestro flujo M, lo que significa que podemos añadir e = {u, v} a M sin violar la propiedad de flujo. Sin embargo, al hacer esto, estamos violando la maximalidad del flujo, lo que significa que no existe tal arista e, por lo tanto, S es de hecho una cobertura de vértice.
+
+Lema 2. Para cualquier flujo M y cualquier cobertura de vértices S del grafo G, |M| ≤ |S|.
+
+Prueba. Dado que M por definición es un conjunto de aristas disjuntas, es decir, no hay dos aristas que comparten un vértice común, y una cobertura de vértice S toca todas las aristas al menos una vez, para cada arista e = {u, v} ∈ M, al menos una de u y v tiene que estar incluida en S. Por lo tanto, el tamaño de S es al menos tanto como el tamaño de M.
+
+A partir del Lema 2, para un grafo G también podemos decir que cualquier flujo arbitrario M calculado por nuestro algoritmo, y S* una cobertura mínima de Vértices de G satisface la propiedad
+	
+|M| ≤ |S*| (1)
+
+De cómo funciona nuestro algoritmo y de la ecuación 1, resulta lo siguiente:
+
+|S| = 2|M| ≤ 2|S* 
+
+Referencia: http://homepage.cs.uiowa.edu/~sriram/5350/fall19/notes/10.31/10.31.pdf
